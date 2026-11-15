@@ -135,8 +135,41 @@ exp_iterative: list[str] = dfs_iterative(start_node)
 
 assert conv_recursive == conv_iterative == exp_recursive == exp_iterative
 
-print(f"\ngraph:\n{graph}")
-print(f"\nconventional recursive DFS:\n{conv_recursive}")
-print(f"\nconventional iterative DFS:\n{conv_iterative}")
-print(f"\nexperimental recursive DFS:\n{exp_recursive}")
-print(f"\nexperimental iterative DFS:\n{exp_iterative}")
+if False:
+    print(f"\ngraph:\n{graph}")
+    print(f"\nconventional recursive DFS:\n{conv_recursive}")
+    print(f"\nconventional iterative DFS:\n{conv_iterative}")
+    print(f"\nexperimental recursive DFS:\n{exp_recursive}")
+    print(f"\nexperimental iterative DFS:\n{exp_iterative}")
+
+# -----------------------------------------------------
+
+nodes: list[Node] = [GenericNode(f"n{i}") for i in range(1005)]
+for i in range(len(nodes) - 1):
+    nodes[i].create_edge(nodes[i + 1])
+start_node: Node = nodes[0]
+
+try:
+    conv_recursive: list[str] = dfs_conventional_recursive(start_node)
+except RecursionError:
+    conv_recursive = ["RecursionError"]
+conv_iterative: list[str] = dfs_conventional_iterative(start_node)
+try:
+    exp_recursive: list[str] = dfs_recursive(start_node)
+except RecursionError:
+    exp_recursive = ["RecursionError"]
+exp_iterative: list[str] = dfs_iterative(start_node)
+
+def display_list(l: list[str]) -> str:
+    if len(l) >= 15:
+        return str(l[:5] + ["..."] + l[-5:])
+    elif len(l) >= 2 or len(l) == 0:
+        return str(l)
+    else:
+        return l[0]
+
+if True:
+    print(f"\nconventional recursive DFS:\n{display_list(conv_recursive)}")
+    print(f"\nconventional iterative DFS:\n{display_list(conv_iterative)}")
+    print(f"\nexperimental recursive DFS:\n{display_list(exp_recursive)}")
+    print(f"\nexperimental iterative DFS:\n{display_list(exp_iterative)}")
